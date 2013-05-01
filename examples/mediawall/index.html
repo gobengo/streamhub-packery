@@ -19,7 +19,6 @@
     .content, .content[data-content-has-avatar=true] {
         background-color:white;
         width: 300px;
-        padding: 0 !important;
         margin-bottom: 0 !important;
         overflow-x: hidden;
     }
@@ -62,6 +61,7 @@
             var view = window.view = new PackeryView({
                 el: document.getElementById("view"),
                 columnWidth: '.content',
+                gutter: 12,
                 itemSelector: '.content',
                 contentIsDraggable: true
             });
@@ -76,9 +76,9 @@
             $(view.el).on('click', '.content', function () {
                 console.log('stamping', this);
                 $(this).css('background-color', 'yellow');
-                $(this).css('width', '600px');
-                view.stamp(this);
+                $(this).css('width', '612px');
                 view.fit(this);
+                view.stamp(this);
             });
         });
         </script>
