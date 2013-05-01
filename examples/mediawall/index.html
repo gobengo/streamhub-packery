@@ -73,7 +73,10 @@
                 view.add(new Hub.Content('WHAT'));
             }, 5000);
 
-            $(view.el).on('click', '.content', function () {
+            $(view.el).on('click', '.content', function (event) {
+                if ($(this).is('.was-dragged')) {
+                    return;
+                }
                 console.log('stamping', this);
                 $(this).css('background-color', 'yellow');
                 $(this).css('width', '612px');

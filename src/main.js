@@ -43,6 +43,13 @@ define([
 
         if (this.contentIsDraggable) {
             var draggie = new Draggabilly(contentView.el);
+            draggie.on('dragMove', function () {
+                $(contentView.el).addClass('was-dragged');
+            });
+            draggie.on('dragItemPositioned', function (packery, draggedItem) {
+                console.log('draggie positioned', arguments);
+                $(contentView.el).removeClass('was-dragged');
+            });
             this.bindDraggabillyEvents(draggie);
         }
 
