@@ -23,6 +23,10 @@ define([
         Packery.call(this, opts.el, opts);
         View.call(this, opts);
 
+        this.contentIsDraggable = opts.contentIsDraggable || false;
+        this._addedElementsToLayout = [];
+        this._addTimeout = null;
+
         $(this.el).addClass('streamhub-packery');
     };
     PackeryView.prototype = $.extend(new View(), Packery.prototype);
@@ -33,9 +37,27 @@ define([
      * @return the newly created ContentView
      */
     PackeryView.prototype.add = function(content, stream) {
-        var contentView = this.createContentView(content);
+        var self = this,
+            contentView = this.createContentView(content);
         contentView.render();
+
+        if (this.contentIsDraggable) {
+            var draggie = new Draggabilly(contentView.el);
+            this.bindDraggabillyEvents(draggie);
+        }
+
         $(this.el).prepend(contentView.el);
+        this._addedElementsToLayout.push(contentView.el);
+
+        // When .add hasn't been called for 200ms, then tell Packery
+        // to .layout() via .prepended(elems)
+        if (this._addTimeout) {
+            this._addTimeout = clearTimeout(this._addTimeout);
+        }
+        this._addTimeout = setTimeout(function () {
+            self.prepended(self._addedElementsToLayout);
+            self._addedElementsToLayout = [];
+        }, 200);
     };
 
     return PackeryView;
