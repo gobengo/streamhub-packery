@@ -38,17 +38,20 @@ define([
      */
     PackeryView.prototype.add = function(content, stream) {
         var self = this,
-            contentView = this.createContentView(content);
+            contentView = this.createContentView(content),
+            $contentViewEl = $(contentView.el);
+
         contentView.render();
 
         if (this.contentIsDraggable) {
             var draggie = new Draggabilly(contentView.el);
             draggie.on('dragMove', function () {
-                $(contentView.el).addClass('was-dragged');
+                $contentViewEl.addClass('was-dragged');
             });
-            draggie.on('dragItemPositioned', function (packery, draggedItem) {
-                console.log('draggie positioned', arguments);
-                $(contentView.el).removeClass('was-dragged');
+            self.on('dragItemPositioned', function (packery, draggedItem) {
+                if (draggedItem.element == contentView.el) {
+                    $contentViewEl.removeClass('was-dragged');
+                }
             });
             this.bindDraggabillyEvents(draggie);
         }
