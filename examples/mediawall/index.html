@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="../lib/streamhub-sdk/src/css/style.css">
+    <style>
+    body {
+        font-family: sans-serif;
+        font-size: 14px;
+        line-height: 18px;
+    }
+    #view {
+        position:relative;
+    }
+    a {
+        text-decoration: none;
+    }
+    .content, .content[data-content-has-avatar=true] {
+        background-color:white;
+        margin: 10px;
+        width: 300px;
+        overflow-x: hidden;
+    }
+    #view .content {
+      -webkit-transition-duration: 1s;
+         -moz-transition-duration: 1s;
+          -ms-transition-duration: 1s;
+           -o-transition-duration: 1s;
+              transition-duration: 1s;
+
+      -webkit-transition-property: -webkit-transform, opacity, top, left;
+         -moz-transition-property:    -moz-transform, opacity, top, left;
+          -ms-transition-property:     -ms-transform, opacity, top, left;
+           -o-transition-property:      -o-transform, opacity, top, left;
+              transition-property:         transform, opacity, top, left;
+    }
+    
+    </style>
+    <script type="text/javascript" src="//platform.twitter.com/widgets.js"></script>
+    <script src="../../lib/get-style-property/get-style-property.js"></script>
+    <script src="../../lib/eventie/eventie.js"></script>
+    <script src="../../lib/eventEmitter/EventEmitter.js"></script>
+    <script src="../../lib/doc-ready/doc-ready.js"></script>
+    <script src="../../lib/get-size/get-size.js"></script>
+    <script src="../../lib/packery/js/rect.js"></script>
+    <script src="../../lib/packery/js/packer.js"></script>
+    <script src="../../lib/packery/js/packery.js"></script>
+    <script src="../../lib/packery/js/item.js"></script>
+</head>
+    <body>
+        
+        <div id="view"></div>
+
+        <script src="../../lib/requirejs/require.js" type="text/javascript"></script>
+        <script src="/requirejs.conf.js" type="text/javascript"></script>
+        <script>
+        require([
+            'streamhub-sdk',
+            'streamhub-packery'
+        ],function (Hub, PackeryView) {
+            var opts = {
+                "network": "labs-t402.fyre.co",
+                "siteId": "303827",
+                // Fast Collection
+                // "articleId": "labs_demo_fire",
+                "articleId": "sh_col_51_1366914813",
+                "environment": "t402.livefyre.com"
+            };
+            
+            var view = window.view = new PackeryView({
+                el: document.getElementById("view")
+            });
+
+            var livefyreStreams = Hub.StreamManager.create.livefyreStreams(opts)
+            livefyreStreams.bind(view).start();
+        });
+        </script>
+    </body>
+</html>
