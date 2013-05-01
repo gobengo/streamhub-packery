@@ -3,6 +3,8 @@
 <head>
     <link rel="stylesheet" type="text/css" href="../lib/streamhub-sdk/src/css/style.css">
     <style>
+    * { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
+
     body {
         font-family: sans-serif;
         font-size: 14px;
@@ -17,7 +19,8 @@
     .content, .content[data-content-has-avatar=true] {
         background-color:white;
         width: 300px;
-        margin: 10px;
+        padding: 0 !important;
+        margin-bottom: 0 !important;
         overflow-x: hidden;
     }
     
@@ -58,16 +61,25 @@
             
             var view = window.view = new PackeryView({
                 el: document.getElementById("view"),
+                columnWidth: '.content',
                 itemSelector: '.content',
                 contentIsDraggable: true
             });
 
             var livefyreStreams = Hub.StreamManager.create.livefyreStreams(opts)
             livefyreStreams.bind(view).start();
-
+            
             setInterval(function () {
                 view.add(new Hub.Content('WHAT'));
             }, 5000);
+
+            $(view.el).on('click', '.content', function () {
+                console.log('stamping', this);
+                $(this).css('background-color', 'yellow');
+                $(this).css('width', '600px');
+                view.stamp(this);
+                view.fit(this);
+            });
         });
         </script>
     </body>
